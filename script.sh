@@ -33,6 +33,10 @@ curl -sSL 'http://packages.ros.org/ros.key' | sudo apt-key add -
 echo "Atualizando lista de pacotes..."
 sudo apt-get update
 
+# Tentar instalar dependências manualmente
+echo "Instalando dependências manualmente..."
+sudo apt-get install -y libboost-thread1.71.0 libgazebo11 libopencv-core4.2 libopencv-imgproc4.2 libprotobuf17 libboost-filesystem1.71.0 libconsole-bridge0.4 libtinyxml2-6a liborocos-kdl1.4 liburdfdom-model liburdfdom-world libyaml-cpp0.6
+
 # Instalar ROS Noetic Desktop-Full
 echo "Instalando ROS Noetic Desktop-Full..."
 sudo apt-get install -y ros-noetic-desktop-full
