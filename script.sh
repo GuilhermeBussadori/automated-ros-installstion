@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Verificar a versão do Ubuntu e instalar lsb-release se necessário
+echo "Verificando a versão do Ubuntu..."
+if ! command -v lsb_release &> /dev/null
+then
+    echo "lsb-release não encontrado. Instalando..."
+    sudo apt-get update
+    sudo apt-get install -y lsb-release
+fi
+
+RELEASE=$(lsb_release -sc)
+echo "Versão do Ubuntu: $RELEASE"
+
 # Atualizar e atualizar o sistema
 echo "Atualizando o sistema..."
 sudo apt-get update
@@ -7,11 +19,11 @@ sudo apt-get upgrade -y
 
 # Instalar pacotes necessários
 echo "Instalando pacotes necessários..."
-sudo apt-get install -y curl gnupg2 lsb-release build-essential
+sudo apt-get install -y curl gnupg2 build-essential
 
-# Adicionar repositório do ROS Noetic
+# Adicionar repositório do ROS Noetic para Ubuntu 20.04 (Focal Fossa)
 echo "Adicionando repositório do ROS Noetic..."
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros-latest.list'
 
 # Adicionar chave GPG do ROS
 echo "Adicionando chave GPG do ROS..."
@@ -32,6 +44,7 @@ source ~/.bashrc
 
 # Inicializar rosdep
 echo "Inicializando rosdep..."
+sudo apt-get install -y python3-rosdep
 sudo rosdep init
 rosdep update
 
@@ -41,12 +54,12 @@ sudo apt-get install -y python3-pip python3-dev python3-venv
 
 # Instalar bibliotecas Python adicionais
 echo "Instalando bibliotecas Python adicionais..."
-pip3 install -U pip
-pip3 install rospkg catkin_pkg
+python3 -m pip install -U pip
+python3 -m pip install rospkg catkin_pkg
 
 # Instalar scikit-learn e outras bibliotecas úteis
 echo "Instalando scikit-learn e outras bibliotecas..."
-pip3 install scikit-learn numpy scipy matplotlib pandas
+python3 -m pip install scikit-learn numpy scipy matplotlib pandas
 
 # Instalar bibliotecas ROS adicionais
 echo "Instalando bibliotecas ROS adicionais..."
