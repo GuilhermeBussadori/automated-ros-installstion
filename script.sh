@@ -19,7 +19,7 @@ sudo apt-get upgrade -y
 
 # Instalar pacotes necessários
 echo "Instalando pacotes necessários..."
-sudo apt-get install -y curl gnupg2 build-essential
+sudo apt-get install -y curl gnupg2 build-essential python3-pip python3-dev python3-venv
 
 # Adicionar repositório do ROS Noetic para Ubuntu 20.04 (Focal Fossa)
 echo "Adicionando repositório do ROS Noetic..."
@@ -48,22 +48,19 @@ sudo apt-get install -y python3-rosdep
 sudo rosdep init
 rosdep update
 
-# Instalar pacotes Python 3 e dependências
-echo "Instalando Python 3 e dependências..."
-sudo apt-get install -y python3-pip python3-dev python3-venv
+# Criar um ambiente virtual Python
+echo "Criando um ambiente virtual Python..."
+python3 -m venv ~/ros-noetic-venv
+source ~/ros-noetic-venv/bin/activate
 
-# Instalar bibliotecas Python adicionais
-echo "Instalando bibliotecas Python adicionais..."
-python3 -m pip install -U pip
-python3 -m pip install rospkg catkin_pkg
+# Instalar bibliotecas Python adicionais no ambiente virtual
+echo "Instalando bibliotecas Python adicionais no ambiente virtual..."
+pip install -U pip
+pip install rospkg catkin_pkg scikit-learn numpy scipy matplotlib pandas
 
-# Instalar scikit-learn e outras bibliotecas úteis
-echo "Instalando scikit-learn e outras bibliotecas..."
-python3 -m pip install scikit-learn numpy scipy matplotlib pandas
-
-# Instalar bibliotecas ROS adicionais
-echo "Instalando bibliotecas ROS adicionais..."
-sudo apt-get install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+# Instalar bibliotecas ROS adicionais no ambiente virtual
+echo "Instalando bibliotecas ROS adicionais no ambiente virtual..."
+pip install rosinstall rosinstall-generator wstool
 
 # Criar arquivo de swap de 2 GB
 echo "Criando arquivo de swap de 2 GB..."
@@ -75,4 +72,4 @@ sudo swapon /swapfile
 # Adicionar o swap ao fstab para ativar o swap na inicialização
 echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
 
-echo "Instalação completa!"
+echo "Instalação completa! Não se esqueça de ativar o ambiente virtual com 'source ~/ros-noetic-venv/bin/activate' sempre que for usar o ROS Noetic."
